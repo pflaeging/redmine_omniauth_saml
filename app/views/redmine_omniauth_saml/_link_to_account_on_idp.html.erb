@@ -1,0 +1,3 @@
+<% if Redmine::OmniAuthSAML.enabled? %>
+<a class="icon icon-passwd" href="<%== Redmine::OmniAuthSAML.idp_url %>" ><%= l(:label_idp_link) %></a>
+<% end %>

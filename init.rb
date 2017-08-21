@@ -17,7 +17,7 @@ Redmine::Plugin.register :redmine_omniauth_saml do
   author 'Christian A. Rodriguez'
   author_url 'mailto:car@cespi.unlp.edu.ar'
   url 'https://github.com/chrodriguez/redmine_omniauth_saml'
-  version '0.0.1'
+  version '0.2'
   requires_redmine :version_or_higher => '2.3.0'
   settings :default => { 'enabled' => 'true', 'label_login_with_saml' => '', 'replace_redmine_login' => false  },
            :partial => 'settings/omniauth_saml_settings'

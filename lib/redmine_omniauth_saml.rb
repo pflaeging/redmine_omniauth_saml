@@ -17,6 +17,10 @@ module Redmine::OmniAuthSAML
       settings_hash["label_login_with_saml"]
     end
 
+    def idp_url
+      settings_hash["idp_url"]
+    end
+
     def user_attributes_from_saml(omniauth)
       Base.user_attributes_from_saml omniauth
     end

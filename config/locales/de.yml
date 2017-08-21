@@ -1,0 +1,11 @@
+en:
+  label_login_with_saml: Mit SAML einloggen
+  label_login_page_text: Loginseiten Text
+  label_saml_enabled: SAML Authentifizierung erlauben
+  label_replace_redmine_login: Redmine Login Seite ersetzen
+  text_full_logout_proposal: You may want to %{value} before trying an other username.
+  text_logout_from_saml: SSO Sitzung schliessen
+  label_onthefly_creation: Benutzer automatisch anlegen?
+  error_saml_invalid_ticket: Nicht gültiges SAML Ticket
+  label_idp_link: Login Daten ändern
+  label_idp_url_setting: IDP Url für Account-Daten

@@ -3,8 +3,8 @@
   <%= check_box_tag 'settings[enabled]', true, @settings['enabled'] %>
 </p>
 <p>
-  <label><%= l(:label_login_page_text) %></label>
-  <%= text_field_tag 'settings[label_login_with_saml]', @settings['label_login_with_saml'], :size => 50 %>
+  <label><%= l(:label_idp_url_setting) %></label>
+  <%= text_field_tag 'settings[idp_url]', @settings['idp_url'], :size => 50 %>
 </p>
 <p>
   <label><%= l(:label_replace_redmine_login) %></label>
