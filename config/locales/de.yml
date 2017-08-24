@@ -9,3 +9,4 @@ en:
   error_saml_invalid_ticket: Nicht gültiges SAML Ticket
   label_idp_link: Login Daten ändern
   label_idp_url_setting: IDP Url für Account-Daten
+  label_create_userhome: Home Projekt für Benutzer generieren (username-home)?

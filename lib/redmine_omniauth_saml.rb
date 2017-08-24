@@ -13,6 +13,10 @@ module Redmine::OmniAuthSAML
       enabled? && settings_hash["onthefly_creation"]
     end
 
+    def create_userhome?
+      enabled? && settings_hash["create_userhome"]
+    end
+
     def label_login_with_saml
       settings_hash["label_login_with_saml"]
     end
