@@ -9,7 +9,7 @@ class User
     user = self.find_by_login(user_attributes[:login])
     unless user
       user = EmailAddress.find_by(address: user_attributes[:mail]).try(:user)
-      if user.nil? && Redmine::OmniAuthSAML.onthefly_creation? 
+      if user.nil? && Redmine::OmniAuthSAML.onthefly_creation?
 	user = User.new(:status => 1, :language => Setting.default_language)
 #        user = new user_attributes
 	user.mail = user_attributes[:mail]
@@ -25,7 +25,7 @@ class User
           projectname = "#{user.firstname} #{user.lastname} Home"
           projectid = "#{user.login}_-_home"
           Rails.logger.info "++ Create Project: #{projectid} with name \"#{projectname}\""
-          projectmodules = ["issue_tracking", "wiki", "calendar", "taskboard"]
+          projectmodules = ["issue_tracking", "wiki", "calendar", "taskboard", "news", "gantt", "time_tracking"]
           begin
             if Project.find(projectid)
               Rails.logger.info "Projectid #{projectid} exists!"
@@ -42,7 +42,7 @@ class User
                                                           :project_id => myhomeproject.id,
                                                           :role_ids => [projectrole.id])
         end
-        ####### PP #########          
+        ####### PP #########
       end
     end
     Redmine::OmniAuthSAML.on_login_callback.call(omniauth, user) if Redmine::OmniAuthSAML.on_login_callback
