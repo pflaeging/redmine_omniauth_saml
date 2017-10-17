@@ -23,7 +23,7 @@ class User
         ####### PP #########
         if Redmine::OmniAuthSAML.create_userhome?
           projectname = "#{user.firstname} #{user.lastname} Home"
-          projectid = "#{user.login}_-_home"
+          projectid = "#{user.login}_-_home".gsub(/@/,'_').gsub(/\./,'_')
           Rails.logger.info "++ Create Project: #{projectid} with name \"#{projectname}\""
           projectmodules = ["issue_tracking", "wiki", "calendar", "taskboard", "news", "gantt", "time_tracking"]
           begin
