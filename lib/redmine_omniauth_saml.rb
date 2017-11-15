@@ -13,8 +13,16 @@ module Redmine::OmniAuthSAML
       enabled? && settings_hash["onthefly_creation"]
     end
 
+    def external_groups?
+      enabled? && settings_hash["external_groups"]
+    end
+
     def create_userhome?
       enabled? && settings_hash["create_userhome"]
+    end
+
+    def access_role
+      settings_hash["access_role"]
     end
 
     def label_login_with_saml
@@ -27,6 +35,10 @@ module Redmine::OmniAuthSAML
 
     def user_attributes_from_saml(omniauth)
       Base.user_attributes_from_saml omniauth
+    end
+
+    def group_create_from_saml(user_attributes, user)
+      Base.group_create_from_saml(user_attributes, user)
     end
 
     def configured_saml
@@ -69,17 +81,57 @@ module Redmine::OmniAuthSAML
       end
 
       def user_attributes_from_saml(omniauth)
+        parameter = Hash.new
+        pp = Hash.new
+        omniauth.single_value_compatibility = false # we're getting the groups as multivalue from keycloak
+        # Rails.logger.info("++ SAML omniauth: " + omniauth.inspect)
+        z = Array(omniauth["extra"]["raw_info"]["role"])
         HashWithIndifferentAccess.new.tap do |h|
           required_attribute_mapping.each do |symbol|
             key = configured_saml[:attribute_mapping][symbol]
-            h[symbol] = key.split('.')                # Get an array with nested keys: name.first will return [name, first]
-              .map {|x| [:[], x]}                     # Create pair elements being :[] symbol and the key
-              .inject(omniauth) do |hash, params|     # For each key, apply method :[] with key as parameter
-                hash.send(*params)
-              end
-          end
-        end
-      end
+            keys = key.split('.')
+            parameter[symbol] = keys
+            pp[symbol] = omniauth[keys[0]][keys[1]].multi(keys[2])
+            if pp[symbol].length == 1
+              pp[symbol] = pp[symbol][0] # convert to string if only one element
+            end
+            #  Rails.logger.info("\t\t\t" + pp[symbol].inspect)
+            # h[symbol] = key.split('.')                # Get an array with nested keys: name.first will return [name, first]
+            #   .map {|x| [:[], x]}                     # Create pair elements being :[] symbol and the key
+            #   .inject(omniauth) do |hash, params|     # For each key, apply method :[] with key as parameter
+            #     hash.send(*params)
+            #   end ## do hash
+          end ## required_attribute_mapping
+        # Rails.logger.info("++ SAML omniauth may return: " + pp.inspect)
+        return pp
+        end ## HashWithIndifferentAccess
+      end ## user_attributes_from_saml
+
+      def group_create_from_saml(user_attributes,user)
+        newgroups = user_attributes[:group] # all groups from SAML
+        user.groups.where(created_by_omniauth_saml: true).each do |ugroup| # go over all SAML groups
+          if newgroups.member?(ugroup.lastname) # is group in workinglist?
+            newgroups.delete(ugroup.lastname) # kick group of workinglist
+            if not user.is_or_belongs_to?(ugroup) # is user in group
+              ugroup.users << user
+            end # if user
+          else
+            ugroup.users.delete(user) # else delete user from group
+            if ugroup.users.empty? # Group empty? Then delete
+              ugroup.delete
+            end
+          end # if newgroups
+          ugroup.save
+        end # do ugroup
+        newgroups.each do |realnew| # look for remainder groups
+          if realnew != Redmine::OmniAuthSAML.access_role # don't create group for access role
+            rng = Group.find_or_create_by(lastname: realnew) # create group
+            rng.created_by_omniauth_saml = true
+            rng.users << user # join user
+            rng.save
+          end # if realnew
+        end # do realnew
+      end # def group_create_from_saml
 
       private
 
@@ -91,7 +143,8 @@ module Redmine::OmniAuthSAML
         [ :login,
           :firstname,
           :lastname,
-          :mail ]
+          :mail,
+          :group]
       end
 
       def validate_configuration!
@@ -130,4 +183,4 @@ module Redmine::OmniAuthSAML
       end
     end
   end
-end
+end ## module

@@ -10,3 +10,5 @@ en:
   label_idp_link: Login Daten ändern
   label_idp_url_setting: IDP Url für Account-Daten
   label_create_userhome: Home Projekt für Benutzer generieren (username-home)?
+  label_access_role: Rolle, mit der der prinzipielle Zugriff erlaubt wird
+  label_external_groups: Werden die Rollen des SAML IdP als Gruppen verwendet?

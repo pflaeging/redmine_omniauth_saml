@@ -7,3 +7,8 @@ en:
   text_logout_from_saml: close SSO session
   label_onthefly_creation: Create users automatically?
   error_saml_invalid_ticket: Invalid SAML authentication ticket
+  label_idp_link: Change login data
+  label_idp_url_setting: IDP Url for account-data
+  label_create_userhome: Create home project for user (username-home)?
+  label_access_role: Role which allows principal access
+  label_external_groups: Use SAML IdP roles as groups?
