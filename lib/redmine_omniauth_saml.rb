@@ -92,6 +92,9 @@ module Redmine::OmniAuthSAML
             keys = key.split('.')
             parameter[symbol] = keys
             pp[symbol] = omniauth[keys[0]][keys[1]].multi(keys[2])
+            if pp[symbol] == nil
+              pp[symbol] = [""]
+            end
             if pp[symbol].length == 1
               pp[symbol] = pp[symbol][0] # convert to string if only one element
             end
@@ -109,6 +112,9 @@ module Redmine::OmniAuthSAML
 
       def group_create_from_saml(user_attributes,user)
         newgroups = user_attributes[:group] # all groups from SAML
+        if newgroups.class == String
+          newgroups = [newgroups]
+        end
         user.groups.where(created_by_omniauth_saml: true).each do |ugroup| # go over all SAML groups
           if newgroups.member?(ugroup.lastname) # is group in workinglist?
             newgroups.delete(ugroup.lastname) # kick group of workinglist

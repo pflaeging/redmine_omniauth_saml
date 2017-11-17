@@ -4,6 +4,13 @@ class User
 
   def self.group_member?(grouparray)
     user_group_allow = false
+    if grouparray.class == String
+      if grouparray == Redmine::OmniAuthSAML.access_role
+        return true
+      else
+        return false  
+      end
+    end
     grouparray.each do |group|
       if group == Redmine::OmniAuthSAML.access_role
         user_group_allow = true
