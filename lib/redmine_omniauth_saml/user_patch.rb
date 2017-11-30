@@ -4,11 +4,14 @@ class User
 
   def self.group_member?(grouparray)
     user_group_allow = false
+    if Redmine::OmniAuthSAML.group_support? == false
+      return true
+    end
     if grouparray.class == String
       if grouparray == Redmine::OmniAuthSAML.access_role
         return true
       else
-        return false  
+        return false
       end
     end
     grouparray.each do |group|
@@ -66,7 +69,7 @@ class User
       end
     end
     # Create groups if wanted:
-    if Redmine::OmniAuthSAML.external_groups?
+    if Redmine::OmniAuthSAML.external_groups? and Redmine::OmniAuthSAML.group_support?
       Redmine::OmniAuthSAML.group_create_from_saml(user_attributes,user)
     end
     Redmine::OmniAuthSAML.on_login_callback.call(omniauth, user) if Redmine::OmniAuthSAML.on_login_callback

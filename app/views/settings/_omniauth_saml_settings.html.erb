@@ -3,14 +3,6 @@
   <%= check_box_tag 'settings[enabled]', true, @settings['enabled'] %>
 </p>
 <p>
-  <label><%= l(:label_access_role) %></label>
-  <%= text_field_tag 'settings[access_role]', @settings['access_role'], :size => 50 %>
-</p>
-<p>
-  <label><%= l(:label_idp_url_setting) %></label>
-  <%= text_field_tag 'settings[idp_url]', @settings['idp_url'], :size => 50 %>
-</p>
-<p>
   <label><%= l(:label_replace_redmine_login) %></label>
   <%= check_box_tag 'settings[replace_redmine_login]', true, @settings['replace_redmine_login'] %>
 </p>
@@ -19,9 +11,22 @@
   <%= check_box_tag 'settings[onthefly_creation]', true, @settings['onthefly_creation'] %>
 </p>
 <p>
+  <label><%= l(:label_group_support) %></label>
+  <%= check_box_tag 'settings[group_support]', true, @settings['group_support'] %>
+</p>
+<p>
+  <label><%= l(:label_access_role) %></label>
+  <%= text_field_tag 'settings[access_role]', @settings['access_role'], :size => 50 %>
+</p>
+<p>
   <label><%= l(:label_external_groups) %></label>
   <%= check_box_tag 'settings[external_groups]', true, @settings['external_groups'] %>
 </p>
+<p>
+  <label><%= l(:label_idp_url_setting) %></label>
+  <%= text_field_tag 'settings[idp_url]', @settings['idp_url'], :size => 50 %>
+</p>
+
 <p>
   <label><%= l(:label_create_userhome) %></label>
   <%= check_box_tag 'settings[create_userhome]', true, @settings['create_userhome'] %>

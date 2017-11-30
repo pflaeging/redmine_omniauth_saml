@@ -13,6 +13,10 @@ module Redmine::OmniAuthSAML
       enabled? && settings_hash["onthefly_creation"]
     end
 
+    def group_support?
+      enabled? && settings_hash["group_support"]
+    end
+
     def external_groups?
       enabled? && settings_hash["external_groups"]
     end

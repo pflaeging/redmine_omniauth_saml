@@ -12,3 +12,4 @@ en:
   label_create_userhome: Create home project for user (username-home)?
   label_access_role: Role which allows principal access
   label_external_groups: Use SAML IdP roles as groups?
+  label_group_support: Support SAML groups?
