@@ -4,7 +4,7 @@ class User
 
   def self.group_member?(grouparray)
     user_group_allow = false
-    if Redmine::OmniAuthSAML.group_support? == false
+    if Redmine::OmniAuthSAML.group_support? == false or Redmine::OmniAuthSAML.group_support? == nil
       return true
     end
     if grouparray.class == String
