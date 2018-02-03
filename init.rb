@@ -14,12 +14,12 @@ end
 Redmine::Plugin.register :redmine_omniauth_saml do
   name 'Redmine Omniauth SAML plugin'
   description 'This plugin adds Omniauth SAML support to Redmine. Based in Omniauth CAS plugin'
-  author 'Christian A. Rodriguez'
+  author 'Christian A. Rodriguez & Peter Pfläging'
   author_url 'mailto:car@cespi.unlp.edu.ar'
   url 'https://github.com/chrodriguez/redmine_omniauth_saml'
-  version '0.8'
+  version '1.0'
   requires_redmine :version_or_higher => '2.3.0'
-  settings :default => { 'enabled' => 'true', 'label_login_with_saml' => '', 'replace_redmine_login' => false  },
+  settings :default => { 'enabled' => 'true', 'label_login_with_saml' => '', 'replace_redmine_login' => false,
+                        'group_support' => false, 'external_groups' => false},
            :partial => 'settings/omniauth_saml_settings'
 end
-
